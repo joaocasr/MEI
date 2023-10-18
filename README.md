@@ -1,2 +1,5 @@
-# MESTRADO EM ENGENHARIA INFORMÁTICA
-MEI - UNIVERSIDADE DO MINHO
+# MEI-UM
+
+## University of Minho 
+
+Academic journey at the **University of Minho** at **Computer Science Master's Degree**.
