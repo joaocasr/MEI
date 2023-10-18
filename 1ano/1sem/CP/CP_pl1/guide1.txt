@@ -1,0 +1,56 @@
+gcc -c main.c -o main
+gcc -g -fno-omit-frame-pointer -O2 -o multO2 main.c
+consumo proporcional ao quadrado da frequencia
+frequencia intrinseca ao hardware
+
+1)
+a)
+time complexity O(1) of allocation.
+time complexity of init O(N^2).
+time complexity of mmult O(N^3)
+When the N doubles is expected that the number of instructions increase #I, even though the CPI might decrease but in a lower proporcionality.
+b)
+
+ganho = (HN² + N³)/(1+N²) aprox N
+
+        movsd   xmm0, QWORD PTR [rdx]
+        mulsd   xmm0, QWORD PTR [rax]
+        add     rax, 4096
+        add     rdx, 8
+        addsd   xmm1, xmm0
+        movsd   QWORD PTR [rcx], xmm1
+        cmp     rsi, rax
+        jne     .L12
+
+T(est;-O2)= 8*N*N*N
+T(est;-O0)= 45*N*N*N
+
+poe e tira valores da stack -O0
+cpi=0.5
+duas pipelines de CPI=1
+
+
+c)
+
+Tcc = 1 / 2493.750 MHz <=> Tcc = 1 / 2.49375 GHz
+-O2; s=512
+Texec = Tcc * (1749145/1074258) *  1074258 s
+-O0; s=512
+Texec = Tcc * (1770352/1077681) *  1077681 s
+
+d)
+estimated instructions = 8*512^3 = 1073741824
+O2 # instructions (s=512)= 1071040
+O2 # instructions (s=256)= 1075774
+O2 # instructions (s=128)= 1073627
+
+----------------------------------------------------
+
+WAR dependencies
+mulsd (%rax) -> addq
+movsd (%rdx) -> addq
+
+RAW dependencies
+movsd (%xmm0) -> addsd
+mulsd (%xmm0) -> addsd
+cmpq (%rax) -> addq

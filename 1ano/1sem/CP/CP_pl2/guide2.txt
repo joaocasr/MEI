@@ -1,0 +1,36 @@
+1-
+
+a)
+
+the memory accesses on the matrix C and A exhibit spatial locality. However, the iteration
+of the matrix B does not exhibit spatial locality. The data in the matrixes are placed in
+memory continuously in a row-major order, so if we are iterating the elements like we are doing
+in matrix B (by column) we are accessing distant addresses from memory (this can lead to huge
+latency as the N grows since the blocks loaded from memory are from certain size).
+
+d)
+N = 128
+Transposed Version
+
+          354532      L1-dcache-load-misses
+          68268227      inst_retired.any          #      0,5 CPI
+          34419301      cycles
+
+       0,015549749 seconds time elapsed
+
+       0,013220000 seconds user
+       0,001016000 seconds sys
+
+
+Base Version
+
+           2197363       L1-dcache-load-misses
+           20106165      inst_retired.any          #      0,7 CPI
+           13903889      cycles
+
+        0,006684958 seconds time elapsed
+
+        0,004962000 seconds user
+        0,000992000 seconds sys
+
+- bigger number of cache L1 misses in base version compared to the transposed version

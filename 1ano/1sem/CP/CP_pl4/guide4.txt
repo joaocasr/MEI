@@ -1,0 +1,37 @@
+java (compilacao)-> bytecode
+
+javac
+java (jvm)
+
+alloc nao é compilado
+
+3- compilacao rapida
+4-compilacao forte
+
+     43    1       3       java.lang.Object::<init> (1 bytes)
+     45    2       3       java.lang.String::hashCode (60 bytes)
+     47    3       3       java.lang.String::coder (15 bytes)
+     54    4       3       java.lang.String::isLatin1 (19 bytes)
+     54    5       3       java.lang.String::length (11 bytes)
+     75    7     n 0       jdk.internal.misc.Unsafe::compareAndSetLong (native)
+     82    6       1       java.util.concurrent.atomic.AtomicLong::get (5 bytes)
+     82    8       3       java.util.concurrent.atomic.AtomicLong::compareAndSet (13 bytes)
+     83    9       3       java.util.Random::next (47 bytes)
+     83   10       3       java.util.Random::nextDouble (24 bytes)
+     83   11       4       java.util.concurrent.atomic.AtomicLong::compareAndSet (13 bytes)
+     84    8       3       java.util.concurrent.atomic.AtomicLong::compareAndSet (13 bytes)   made not entrant
+     84   12       4       java.util.Random::next (47 bytes)
+     86    9       3       java.util.Random::next (47 bytes)   made not entrant
+     86   13       4       java.util.Random::nextDouble (24 bytes)
+     88   10       3       java.util.Random::nextDouble (24 bytes)   made not entrant
+     94   14 %     3       MULT::init @ 17 (57 bytes)
+     97   15       3       MULT::init (57 bytes)
+    104   16 %     4       MULT::init @ 17 (57 bytes)
+    126   17 %     3       MULT::mmult @ 24 (73 bytes)
+    127   18       3       MULT::mmult (73 bytes)
+    133   14 %     3       MULT::init @ 17 (57 bytes)   made not entrant
+    134   19 %     4       MULT::mmult @ 24 (73 bytes)
+    163   17 %     3       MULT::mmult @ 24 (73 bytes)   made not entrant
+135.17352480702138
+
+3 compilacoes-mmult

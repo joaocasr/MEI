@@ -1,0 +1,138 @@
+class MULT_2 {
+  public static double[][] A;
+
+  public static double[][] B;
+
+  public static double[][] C;
+
+  MULT_2();
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+
+  public static void alloc(int);
+       0: iload_0
+       1: iload_0
+       2: multianewarray #7,  2             // class "[[D"
+       6: putstatic     #9                  // Field A:[[D
+       9: iload_0
+      10: iload_0
+      11: multianewarray #7,  2             // class "[[D"
+      15: putstatic     #14                 // Field B:[[D
+      18: iload_0
+      19: iload_0
+      20: multianewarray #7,  2             // class "[[D"
+      24: putstatic     #17                 // Field C:[[D
+      27: return
+
+
+  public static void init(int);
+       0: new           #20                 // class java/util/Random
+       3: dup
+       4: invokespecial #22                 // Method java/util/Random."<init>":()V
+       7: astore_1
+       8: iconst_0
+       9: istore_2
+      10: iload_2
+      11: iload_0
+      12: if_icmpge     56
+      15: iconst_0
+      16: istore_3
+      17: iload_3
+      18: iload_0
+      19: if_icmpge     50
+      22: getstatic     #9                  // Field A:[[D
+      25: iload_2
+      26: aaload
+      27: iload_3
+      28: aload_1
+      29: invokevirtual #23                 // Method java/util/Random.nextDouble:()D
+      32: dastore
+      33: getstatic     #14                 // Field B:[[D
+      36: iload_2
+      37: aaload
+      38: iload_3
+      39: aload_1
+      40: invokevirtual #23                 // Method java/util/Random.nextDouble:()D
+      43: dastore
+      44: iinc          3, 1
+      47: goto          17
+      50: iinc          2, 1
+      53: goto          10
+      56: return
+
+
+  public static void mmult(int);
+       0: iconst_0
+       1: istore_1
+       2: iload_1
+       3: iload_0
+       4: if_icmpge     72
+       7: iconst_0
+       8: istore_2
+       9: iload_2
+      10: iload_0
+      11: if_icmpge     66
+      14: getstatic     #17                 // Field C:[[D
+      17: iload_1
+      18: aaload
+      19: iload_2
+      20: dconst_0
+      21: dastore
+      22: iconst_0
+      23: istore_3
+      24: iload_3
+      25: iload_0
+      26: if_icmpge     60
+      29: getstatic     #17                 // Field C:[[D
+      32: iload_1
+      33: aaload
+      34: iload_2
+      35: dup2
+      36: daload
+      37: getstatic     #9                  // Field A:[[D
+      40: iload_1
+      41: aaload
+      42: iload_3
+      43: daload
+      44: getstatic     #14                 // Field B:[[D
+      47: iload_3
+      48: aaload
+      49: iload_2
+      50: daload
+      51: dmul
+      52: dadd
+      53: dastore
+      54: iinc          3, 1
+      57: goto          24
+      60: iinc          2, 1
+      63: goto          9
+      66: iinc          1, 1
+      69: goto          2
+      72: return
+
+
+  public static void main(java.lang.String[]);
+       0: iconst_0
+       1: istore_1
+       2: iload_1
+       3: sipush        1000
+       6: if_icmpge     36
+       9: sipush        128
+      12: iload_1
+      13: bipush        64
+      15: irem
+      16: iadd
+      17: istore_2
+      18: iload_2
+      19: invokestatic  #27                 // Method alloc:(I)V
+      22: iload_2
+      23: invokestatic  #31                 // Method init:(I)V
+      26: iload_2
+      27: invokestatic  #34                 // Method mmult:(I)V
+      30: iinc          1, 1
+      33: goto          2
+      36: return
+
+}
