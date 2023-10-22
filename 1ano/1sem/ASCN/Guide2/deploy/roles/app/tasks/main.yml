@@ -1,0 +1,67 @@
+---
+- name: Add ondrej repository
+  become: yes
+  apt_repository:
+    repo: ppa:ondrej/php
+  
+- name: Update apt packages
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: configure packages
+  become: yes
+  shell: dpkg --configure -a
+
+- name: Install remaining dependencies
+  become: yes
+  ansible.builtin.apt: 
+    name: "{{ item }}"
+  loop: "{{ swap_packages }}"
+
+- name: Clone Swap repository
+  ansible.builtin.git:
+    repo: https://github.com/Hackathonners/swap
+    dest: /home/vagrant/swap
+    version: master
+
+- name: Install required packages with composer
+  shell: composer install
+  args:
+    chdir: /home/vagrant/swap
+
+- name: Install required packages with npm
+  shell: npm install
+  args:
+    chdir: /home/vagrant/swap
+
+- name: Template a file to env_example
+  ansible.builtin.template:
+    src:  ../templates/env_example
+    dest: /home/vagrant/swap/.env
+
+- name: Run artisan key generate
+  shell: php artisan key:generate
+  args:
+    chdir: /home/vagrant/swap
+
+- name: Run artisan migrate
+  shell: php artisan migrate
+  args:
+    chdir: /home/vagrant/swap
+
+- name: Start APP
+  shell: php artisan serve --host=0.0.0.0
+  args:
+    chdir: /home/vagrant/swap
+# faltavam estas tasks
+#The killall should be improved to a safer command
+- name: Clean previous app servers
+  shell: killall -9 php7.4 && killall -9 php
+  ignore_errors: yes
+
+#a more correct approach to this would be to register the service in systemd
+- name: Start app server
+  shell: nohup php artisan serve --host=0.0.0.0 > app_out.log 2>&1 &
+  args:
+    chdir: ~/swap

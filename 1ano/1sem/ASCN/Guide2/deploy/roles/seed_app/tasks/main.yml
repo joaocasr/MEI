@@ -1,0 +1,5 @@
+---
+- name: Run artisan db:seed
+  shell: php artisan db:seed
+  args:
+    chdir: /home/vagrant/swap

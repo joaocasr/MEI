@@ -1,0 +1,54 @@
+***list all containers***
+> docker ps -a
+
+***start a container***
+> docker start <container-id>
+
+***execute a container***
+> docker exec -it <container-id> /bin/sh
+
+***stop a container***
+> docker stop <container-id>
+
+***remove container***
+> docker rm <container-name>
+
+***pull an image***
+> docker image pull <image-name>
+
+***kill a container***
+> docker kill <container-id>
+
+***Create a docker network***
+> docker network create <network-name>
+
+***List network***
+> docker network list
+
+***Check container's IP***
+>docker inspect \
+{range.NetworkSettin>   -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container-id>
+
+Dockerfile (build)-> Image (run)-> Container [CMD(correr comando),EXPOSE(porta de entrada do exterior para o container)]
+
+--------------------------------------------
+Create a database container
+
+Pull the official MySQL Docker image
+> docker image pull mysql:latest
+
+Create a Docker container with a MySQL installation:
+> docker run --name mysqlcontainer --net docknet -p 3306:3306 -d \
+-e MYSQL_USER=joao -e MYSQL_PASSWORD=joao \
+-e MYSQL_DATABASE=swap -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+mysql:latest
+
+---------------------------------------------
+Create a swap app container
+
+> touch Dockerfile
+-create Dockerfile file content
+> docker build . -t swapimg
+> docker run --net docknet -p 8000:8000 \
+--name swapcontainer swapimg
+> http://192.168.56.101

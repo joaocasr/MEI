@@ -1,0 +1,10 @@
+---
+- name : DB
+  hosts: db
+  roles:
+    - db
+- name : APP
+  hosts: app
+  roles:
+    - {role: app}
+    - {role: seed_app, when: "seed_data is defined and seed_data == 'true'" }
