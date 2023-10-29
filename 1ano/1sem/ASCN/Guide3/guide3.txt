@@ -52,4 +52,3 @@ Create a swap app container
 > docker run --name swapcontainer --net docknet -p 8000:8000 -d \
  -e DB_HOST=dbcontainer -e DB_DATABASE=swap -e DB_USERNAME=joao \
  -e DB_PASSWORD=joao swapimg
-
