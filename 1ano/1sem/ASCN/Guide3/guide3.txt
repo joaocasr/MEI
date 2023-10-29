@@ -38,7 +38,7 @@ Pull the official MySQL Docker image
 > docker image pull mysql:latest
 
 Create a Docker container with a MySQL installation:
-> docker run --name mysqlcontainer --net docknet -p 3306:3306 -d \
+> docker run --name dbcontainer --net docknet -p 3306:3306 -d \
 -e MYSQL_USER=joao -e MYSQL_PASSWORD=joao \
 -e MYSQL_DATABASE=swap -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
 mysql:latest
@@ -49,9 +49,7 @@ Create a swap app container
 > touch Dockerfile
 -create Dockerfile file content
 > docker build . -t swapimg
-> docker run --net docknet -p 8000:8000 \
---name swapcontainer swapimg
-> http://192.168.56.101
+> docker run --name swapcontainer --net docknet -p 8000:8000 -d \
+ -e DB_HOST=dbcontainer -e DB_DATABASE=swap -e DB_USERNAME=joao \
+ -e DB_PASSWORD=joao swapimg
 
-
-docker run --net docknet -p 8000:8000 -e DB_HOST=swapcontainer -e DB_DATABASE=swap -e DB_USERNAME=joao -e DB_PASSWORD=joao
