@@ -1,0 +1,45 @@
+---
+# Deployment for MySQL
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swap-deployment
+  labels:
+    app: swap
+    tier: app
+spec:
+  selector:
+    matchLabels:
+      app: swap
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: swap
+        tier: app
+    spec:
+      containers:
+      - name: swap
+        image: ascnuminho/swap
+        env: # The variables below could be set on a ConfigMap object
+        - name: DB_HOST
+          value: mysql-service
+        - name: DB_DATABASE
+          value: swap
+        - name: DB_USERNAME
+          value: joao
+        - name: DB_PASSWORD
+          value: "joao"
+        - name: MIGRATE
+          value: TRUE  
+           # Use Secret object in real usage
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
