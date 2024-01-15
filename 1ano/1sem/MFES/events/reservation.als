@@ -46,7 +46,7 @@ pred use[u : User, r : Resource] {
 	Available' = Available
 	u.reservations' = u.reservations - r
 	//frame
-	all y : User - u |y.reservations' = y.reservations
+	all y : User - u | y.reservations' = y.reservations
 }
 
 pred cleanup {

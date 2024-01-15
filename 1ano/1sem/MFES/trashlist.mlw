@@ -1,0 +1,120 @@
+module Trash_Spec
+
+  use export int.Int
+  use export set.Fset
+  
+  type item = int
+
+
+(*
+sig Item {}
+var sig Accessible in Item {}
+var sig Trashed in Item {}
+*)
+
+  type stateAT = { accessible: fset item ; trashed : fset item }
+
+
+(*
+pred create[i : Item] {
+	i not in Accessible + Trashed
+	Accessible' = Accessible + i
+	Trashed' = Trashed 
+}
+*)
+  predicate createSP (i : item) (s s' :stateAT) = 
+    not mem i (union s.accessible s.trashed) ->
+    s'.accessible = add i s.accessible /\ s'.trashed = s.trashed 
+
+
+(*
+pred delete[i : Item] {
+	i in Accessible
+	Accessible' = Accessible - i
+	Trashed' = Trashed + i
+}
+*)
+  predicate deleteSP (i : item) (s s' :stateAT) = 
+    mem i s.accessible ->
+    s'.accessible = remove i s.accessible /\ s'.trashed = add i s.trashed
+
+
+(*
+pred restore[i : Item] {
+	i in Trashed
+	Accessible' = Accessible + i
+	Trashed' = Trashed - i
+}
+*)
+  predicate restoreSP (i : item) (s s' :stateAT) = 
+    mem i s.trashed -> 
+    s'.accessible = add i s.accessible /\ s'.trashed = remove i s.trashed
+
+
+(*
+pred empty {
+	some Trashed
+	no Trashed'
+	Accessible' = Accessible
+}
+*)
+predicate emptySP (s s' :stateAT) = 
+    not (is_empty s.trashed) -> 
+    is_empty s'.trashed /\ s'.accessible = s.accessible
+
+
+end
+
+
+module Trash_List
+
+  use Trash_Spec
+
+  use list.ListRich
+  use list.Elements
+  
+  type stateT = { mutable accessible_: list item ; mutable trashed_ : list item }
+
+  val state : stateT
+
+  function view (s:stateT) : stateAT =
+    { accessible = elements s.accessible_ ;
+      trashed    = elements s.trashed_
+    }
+
+
+  let create (i : item) 
+    ensures  { createSP i (old view state) (view state) }
+  =
+    state.accessible_ <- Cons i state.accessible_ 
+
+  
+  let rec function deleteAll (x: item) (l:list item) : list item 
+    ensures { elements result == remove x (elements l) }
+  = 
+   match l with
+    | Nil -> Nil
+    | Cons h t = if h==x then deleteAll x t
+                 else (Cons h (deleteAll x t))
+   end
+
+  let delete (i : item)
+    ensures  { deleteSP i (old view state) (view state) }
+  =
+    state.accessible_ <- deleteAll i state.accessible_ ;
+    state.trashed_ <- Cons i state.trashed_ 
+
+
+  let restore (i : item)
+    ensures  { restoreSP i (old view state) (view state) }
+  = 
+    state.accessible_ <- Cons i state.accessible_ ;
+    state.trashed_ <- deleteAll i state.trashed_ 
+   
+
+  let empty ()
+    ensures  { emptySP (old view state) (view state) }
+  =
+   state.trashed_ <- Nil
+
+end
