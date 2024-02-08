@@ -1,0 +1,11 @@
+1) What is the impact of work memory and shared buffer allocation in the maximum achievable throughput?
+
+se a work memory não for suficiente irá provocar swapping o que irá resultar num maior número de copias do disco para a memória,
+ou seja, o que leva a uma redução do throughput. Este parametro ira depender de alguns fatores como o número concorrente de conexões à base de dados, ou seja, se em cada sessão a soma dsa quantidades da memoria alocada para hash e sort exceder a memoria disponivel irá provocar contenção. Alocação de memória imprópria de shared_buffers pode provocar a congestao, perda de dados e limita o throughput.
+
+2)
+
+Aumentar a quantidade de RAM 
+Upgrade do CPU, SSD's
+Implementar mecanismos de caching para armazenar dados acedidos frequentemente
+data cache prefetching prever os dados que serao acedidos e fazer fetch dos mesmos para a cache escondendo a latencia de acessos à memoria e cache misses

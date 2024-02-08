@@ -1,0 +1,10 @@
+-The shared_buffers parameter determines how much memory is dedicated to the server for caching data. 
+
+The value should be set to 15% to 25% of the machine’s total RAM.
+
+
+------------------------------------------------------------------------------
+-The work_mem parameter basically provides the amount of memory to be used by internal sort operations and hash tables before writing to temporary disk files (work_mem is allocated dynamically for query operations ).
+->allocated in the private memory of the base backend process that needs it
+
+optimal work_mem = Total RAM * 0.25 / max_connections
