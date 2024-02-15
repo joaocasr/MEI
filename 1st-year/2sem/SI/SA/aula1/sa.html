@@ -1,0 +1,49 @@
+<html>
+ <head>
+ <title>Adafruit IO + JS</title>
+ </head>
+ <body>
+ <h1> PUBLISH </h1>
+ <button onclick="publish()">Publish</button>
+ 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+ <script>
+    let counter = 0;
+    //create a client instance
+    client = new Paho.MQTT.Client("io.adafruit.com", Number(443), "JS_Client");
+    //set callback handlers
+    client.onConnectionLost = onConnectionLost; 
+    client.onMessageArrived = onMessageArrived;
+    //connect the client
+    client.connect({onSuccess:onConnect, userName:"khonsupx", 
+    password:"aio_jMBM93d8VjwcctEzaCfkCxWmxNrq", useSSL:true, mqttVersion:4})
+    //called when the client connects
+    function onConnect() {
+        console.log("onConnect"); 
+        //subscribe
+        client.subscribe("khonsupx/feeds/sensorfeed"); 
+    }
+    function publish(){
+        //send message
+        counter += 1;
+        message = new Paho.MQTT.Message("Hello from JS! - Message :"+counter); 
+        message.destinationName = "khonsupx/feeds/sensorfeed"; 
+        client.send(message); 
+    }
+    //called when the client loses its connection
+    function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+            console.log("onConnectionLost:" + responseObject.errorMessage); 
+        } 
+    }
+    //called when a message arrives
+    function onMessageArrived(message) {
+        console.log("onMessageArrived:" + message.payloadString); 
+        var h1 = document.createElement("h1"); 
+        h1.appendChild(document.createTextNode(message.payloadString)); 
+        document.body.appendChild(h1); 
+    }
+</script>
+</body>
+</html>
+
