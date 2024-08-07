@@ -1,0 +1,9 @@
+- Proj
+\------main.py
+- Agents
+\-------Seller.py
+\-------Buyer.py
+- Behaviours
+\------- Suck.py
+- Classes
+\------- (tratamento no envio de objetos)

@@ -1,0 +1,30 @@
+----quicksort algorithm-----------
+
+throughput (txn/s) = 303.7
+response time (s) = 0.003287706432663813
+abort rate (%) = 0.0
+
+----hash join algorithm-----------
+throughput (txn/s) = 397.9
+response time (s) = 0.0025092140839406887
+abort rate (%) = 0.0
+
+
+----------------------------------
+EXPLAIN ANALYSIS
+
+ Limit  (cost=736.82..736.85 rows=10 width=12) (actual time=7.711..7.720 rows=10 loops=1)
+   ->  Sort  (cost=736.82..739.38 rows=1024 width=12) (actual time=7.709..7.715 rows=10 loops=1)
+         Sort Key: (count(*)) DESC
+         Sort Method: top-N heapsort  Memory: 25kB
+         ->  HashAggregate  (cost=704.45..714.69 rows=1024 width=12) (actual time=6.983..7.313 rows=967 loops=1)
+               Group Key: c.id
+               Batches: 1  Memory Usage: 129kB
+               ->  Hash Join  (cost=170.04..688.90 rows=3110 width=4) (actual time=0.872..5.157 rows=3110 loops=1)
+                     Hash Cond: (i.clientid = c.id)
+                     ->  Seq Scan on invoice i  (cost=0.00..476.10 rows=3110 width=4) (actual time=0.011..2.110 rows=3110 loops=1)
+                     ->  Hash  (cost=157.24..157.24 rows=1024 width=4) (actual time=0.831..0.833 rows=1024 loops=1)
+                           Buckets: 1024  Batches: 1  Memory Usage: 44kB
+                           ->  Seq Scan on client c  (cost=0.00..157.24 rows=1024 width=4) (actual time=0.005..0.523 rows=1024 loops=1)
+ Planning Time: 7.731 ms
+ Execution Time: 7.959 ms

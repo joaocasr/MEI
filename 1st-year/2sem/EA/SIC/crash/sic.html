@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>Template</title>
+    <link rel="stylesheet" type="text/css" href="sic.css">
+</head>
+<body>
+    <div class="grid-container">
+        <header>
+            <span class="full-text">GamesLibrary</span>
+            <span class="short-text">App name</span>
+        </header>
+        <nav>
+            <div id="username">
+                User name
+            </div>
+            <ul>
+                <li><a href="#all">All Games</a></li>
+                <li><a href="#my">My Games</a></li>
+                <li><a href="#add">Add Games</a></li>
+            </ul>
+        </nav>
+        <main>
+            <table style="width: 99%;">
+                <tr id="headtable" >
+                    <th>Name</th>
+                    <th>Year</th>
+                    <th>Platform</th>
+                </tr>
+                <tr>
+                    <td>Game 1</td>
+                    <td>1992</td>
+                    <td>Megadrive</td>
+                </tr>
+                <tr>
+                    <td>Game 2</td>
+                    <td>2017</td>
+                    <td>PC</td>
+                </tr>
+            </table>
+            <div class="pagination">
+                <ul>
+                    <li><a href="#1">1</a></li>
+                    <li><a href="#2">2</a></li>
+                    <li><a href="#3">3</a></li>
+                </ul>
+            </div>
+        </main>
+        <aside>
+            <div>
+                <fieldset>
+                    <legend>Filter</legend>
+                    <form>
+                        <select>
+                            <option hidden value="year">Year</option>
+                            <option value="1992">1992</option>
+                            <option value="2017">2017</option>
+                        </select>
+                        <br>   
+                        <select>
+                            <option hidden value="platform">Platform</option>
+                            <option value="Megadrive">Megadrive</option>
+                            <option value="PC">PC</option>
+                        </select>
+                    </form>
+                </fieldset>    
+            </div>
+        </aside>
+        <footer>Footer information &copy</footer>
+    
+    </div>
+</body>
+</html>
